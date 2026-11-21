@@ -185,6 +185,36 @@
   </div>
 </div>
 
+<!-- ===== ヘッダ動画（App Store のプロダクトページ用と同じ映像。ページの言語に合わせて日英を切り替える） ===== -->
+<style>
+  .hv-wrap{max-width:1120px; margin:0 auto; padding:40px 20px 56px;}
+  .hv-frame{position:relative; aspect-ratio:3840/1646; border-radius:20px; overflow:hidden; background:#000;
+    box-shadow:0 24px 70px rgba(0,0,0,.28); }
+  .hv-frame video{display:block; width:100%; height:100%; object-fit:cover;}
+  @media (max-width:600px){ .hv-wrap{padding:24px 16px 40px;} .hv-frame{border-radius:14px;} }
+</style>
+<div class="hv-wrap">
+  <div class="hv-frame">
+    <video class="hv" src="assets/header_ja.mp4" poster="assets/header_ja.jpg" autoplay muted loop playsinline preload="metadata" aria-label="紹介動画 / Intro video"></video>
+  </div>
+</div>
+<script>
+  (function(){
+    var v = document.querySelector('video.hv'); if(!v) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.controls = true; }
+    function set(){
+      var l = (document.documentElement.lang || 'ja').toLowerCase().indexOf('ja') === 0 ? 'ja' : 'en';
+      var s = 'assets/header_' + l + '.mp4';
+      if (v.getAttribute('src') !== s) {
+        v.poster = 'assets/header_' + l + '.jpg'; v.setAttribute('src', s);
+        if (v.autoplay) { var p = v.play(); if (p) p.catch(function(){}); }
+      }
+    }
+    set();
+    new MutationObserver(set).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+  })();
+</script>
+
 <section id="features">
   <div class="wrap">
     <h2 class="section-title"><span class="lang-ja">できること</span><span class="lang-en">Features</span></h2>
